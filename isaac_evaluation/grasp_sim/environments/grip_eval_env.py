@@ -52,7 +52,7 @@ class GraspingGymEnv():
         return args
 
     def _create_env(self):
-        self.table = self._load_table()
+        # self.table = self._load_table()
         self.obj, self.initial_obj_pose = self._load_obj(self.args['obj_args'])
         self.gripper = self._load_gripper(self.initial_obj_pose)
 

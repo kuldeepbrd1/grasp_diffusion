@@ -10,8 +10,8 @@ def parse_args():
     p.add('-c', '--config_filepath', required=False, is_config_file=True, help='Path to config file.')
 
     p.add_argument('--obj_id', type=int, default=12)
-    p.add_argument('--n_grasps', type=str, default='1000')
-    p.add_argument('--n_envs', type=str, default='20')
+    p.add_argument('--n_grasps', type=str, default='100')
+    p.add_argument('--n_envs', type=str, default='100')
     p.add_argument('--obj_class', type=str, default='Mug')
     p.add_argument('--device', type=str, default='cuda:0')
     p.add_argument('--eval_sim', type=bool, default=True)

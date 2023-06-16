@@ -69,7 +69,7 @@ class GraspSuccessEvaluator():
 
             batch_H = H[i:i+self.n_envs,...]
             self.eval_batch(batch_H)
-
+        
         return self.success_cases
 
     def eval_batch(self, H):

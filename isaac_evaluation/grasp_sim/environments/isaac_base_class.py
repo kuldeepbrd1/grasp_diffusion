@@ -54,6 +54,7 @@ class IsaacGymWrapper():
 
         # configure sim
         sim_params = gymapi.SimParams()
+        # sim_params.use_gpu_pipeline = True
         sim_params.dt = 1.0 / self.freq
         sim_params.gravity = gymapi.Vec3(0, -9.81, 0)
         sim_params.substeps = 1
@@ -91,14 +92,15 @@ class IsaacGymWrapper():
             sim_params.physx.solver_type = 1
             sim_params.physx.num_position_iterations = 25
             sim_params.physx.num_velocity_iterations = 1
-            sim_params.physx.num_threads = 2
+            sim_params.physx.num_threads = 7
             sim_params.physx.use_gpu = True
 
             sim_params.physx.rest_offset = 0.0
             sim_params.physx.contact_offset = 0.001
             sim_params.physx.friction_offset_threshold = 0.001
             sim_params.physx.friction_correlation_distance = 0.0005
-
+            
+    
         # Create Sim object
         gpu_physics = self.compute_device_id
         if self.visualize:

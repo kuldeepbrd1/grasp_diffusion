@@ -14,6 +14,7 @@ class EvaluatePointConditionedGeneratedGrasps():
     def __init__(self, generator, n_grasps = 500, batch=100, obj_id= 0, obj_class = 'Mug', n_envs=10, net_scale=8.,
                  viewer=True, args=None, center_P=True):
 
+        self._acronym_grasps = AcronymGraspsDirectory(data_type=obj_class)
         ## Set args
         self.center_P = center_P
         self.n_grasps = n_grasps
@@ -36,8 +37,8 @@ class EvaluatePointConditionedGeneratedGrasps():
             }
         return args
 
-    def generate_and_evaluate(self, success_eval=True, earth_moving_distance=True):
-        H = self.generate_grasps()
+    def generate_and_evaluate(self, n_grasps, success_eval=True, earth_moving_distance=True):
+        H = self.generate_grasps(n_grasps=n_grasps)
         if success_eval:
             success_cases = self.evaluate_grasps_success(H)
             success_rate = success_cases/H.shape[0]
@@ -55,8 +56,8 @@ class EvaluatePointConditionedGeneratedGrasps():
         return success_rate, edd_mean, edd_std
 
     def pointcloud_conditioning(self):
-        acronym_grasps = AcronymGraspsDirectory(data_type=self.obj_class)
-        mesh = acronym_grasps.avail_obj[self.obj_id].load_mesh()
+        
+        mesh = self._acronym_grasps.avail_obj[self.obj_id].load_mesh()
         P = mesh.sample(1000)
         P = to_torch(P, self.generator.device)
         rot = to_torch(R.from_quat(self.q).as_matrix(), self.generator.device)
@@ -87,7 +88,7 @@ class EvaluatePointConditionedGeneratedGrasps():
         ## Generate Grasps in batch
         H = torch.zeros(0,4,4).to(self.generator.device)
         batch = self.generator.batch
-        for i in range(0, self.n_grasps, batch):
+        for i in range(0, n_grasps, batch):
             print('Generating of {} to {} samples'.format(i, i+batch))
             H_episode = self.generator.sample(batch=batch)
             ## Shift to CoM of the object
@@ -108,7 +109,10 @@ class EvaluatePointConditionedGeneratedGrasps():
         ## Load grasp evaluator
         grasp_evaluator = GraspSuccessEvaluator(n_envs=self.n_envs, idxs=[self.obj_id] * self.n_envs, obj_class=self.obj_class,
                                                 rotations=[self.q]*self.n_envs, viewer=self.viewer, enable_rel_trafo=False)
-        return grasp_evaluator.eval_set_of_grasps(H)
+        res=  grasp_evaluator.eval_set_of_grasps(H)
+
+        grasp_evaluator.grasping_env.kill()
+        return res
 
     def measure_empirircal_dist_distance(self, H_sample=None):
 
