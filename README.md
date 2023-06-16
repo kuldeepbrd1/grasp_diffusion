@@ -67,7 +67,7 @@ cd .. && mkdir data
 cd data
 sudo apt-get install git-lfs
 git lfs install
-git clone  https://huggingface.co/camusean/grasp_diffusion models
+git clone https://huggingface.co/camusean/grasp_diffusion models
 ```
 
 ## Sample Grasps
@@ -89,10 +89,6 @@ python scripts/sample/generate_partial_pointcloud_6d_grasp_poses.py --n_grasps 1
 
 ## Train a new model
 
-Train no-pointcloud model
-```azure
-python scripts/train/train_6d_grasp_diffusion.py
-```
 
 Train pointcloud conditioned model
 ```azure
@@ -104,19 +100,32 @@ Train partial pointcloud conditioned model
 python scripts/train/train_partial_pointcloud_6d_grasp_diffusion.py
 ```
 
+## Evaluate Generated Grasps in Simulation (Isaac Gym) and compute Earth Moving Distance
+
+To evaluate a trained model in Isaac Gym, you first have to install the simulator and install it into your conda environment.
+Note: for our experiments, we used Isaac Gym preview3.
+
+In the file *scripts/evaluate/evaluate_pointcloud_6d_grasp_poses.py* we showcase how we evaluate the quality of the trained model
+
+```azure
+python scripts/evaluate/evaluate_pointcloud_6d_grasp_poses.py --n_grasps 100 --obj_id 0 --obj_class 'Mug' --model 'grasp_dif_mugs' --device "cuda:0"
+```
+
+
+
 ## References
 
-[1] Julen Urain*, Niklas Funk*, Georgia Chalvatzaki, Jan Peters. 
+[1] Julen Urain*, Niklas Funk*, Jan Peters, Georgia Chalvatzaki. 
 "SE(3)-DiffusionFields: Learning smooth cost functions for joint grasp and motion optimization through diffusion" 
-*Under review* 2022.
+ICRA 2023.
 [[arxiv]](https://arxiv.org/pdf/2209.03855.pdf)
 
 ```
 @article{urain2022se3dif,
   title={SE(3)-DiffusionFields: Learning smooth cost functions for joint grasp and motion optimization through diffusion},
-  author={Urain, Julen and Funk, Niklas and Chalvatzaki, Georgia and Peters, Jan},
-  journal={https://arxiv.org/pdf/2209.03855.pdf},
-  year={2022}
+  author={Urain, Julen and Funk, Niklas and Peters, Jan and Chalvatzaki, Georgia},
+  journal={IEEE International Conference on Robotics and Automation (ICRA)},
+  year={2023}
 ```
 
 [2] Eppner Clemens, Arsalan Mousavian, Dieter Fox. 
@@ -128,6 +137,9 @@ python scripts/train/train_partial_pointcloud_6d_grasp_diffusion.py
 [3] Chang Angel X., et al. 
 "Shapenet: An information-rich 3d model repository." 
 *arXiv preprint arXiv:1512.03012*. 2015 [[arxiv]](https://arxiv.org/abs/1512.03012)
+
+## Contributions
+This code repository is the joint effort of [Julen Urain](http://robotgradient.com/) and [Niklas Funk](https://niklasfunk.com/).
 
 ### Contact
 
