@@ -5,6 +5,7 @@ import os, os.path as osp
 base_dir = os.path.abspath(os.path.dirname(__file__) + "../../../")
 ## Set root directory
 root_directory = os.path.abspath(os.path.join(base_dir))
+
 ## Set data directory
 data_directory = os.path.abspath(os.path.join(root_directory, "data"))
 # Set directory for meshes regarding the simulation environment:

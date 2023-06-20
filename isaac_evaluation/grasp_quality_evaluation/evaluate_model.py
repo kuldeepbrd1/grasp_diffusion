@@ -46,8 +46,8 @@ class EvaluatePointConditionedGeneratedGrasps():
         else:
             success_rate = 0.
         if earth_moving_distance:
-            print('EMD Distance: Dataset-Dataset')
-            self.measure_empirircal_dist_distance()
+            # print('EMD Distance: Dataset-Dataset')
+            # self.measure_empirircal_dist_distance()
             print('EMD Distance: Samples-Dataset')
             edd_mean, edd_std = self.measure_empirircal_dist_distance(H)
         else:

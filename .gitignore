@@ -154,3 +154,6 @@ dmypy.json
 gifs/
 
 tmp/
+isaacgym/
+*.out
+results_grasp_dif_multi/*

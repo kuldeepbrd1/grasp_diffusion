@@ -62,8 +62,84 @@ if __name__ == '__main__':
 
     os.makedirs(out_dir, exist_ok=True)
 
-    obj_classes = ["Mug", "Cup"]
-    exp_name = "Mugs_Cups"
+    obj_classes = [
+        # Job 1 :results_grasp_dif_multi/GraspDifMulti_63_cat_eval_2023-06-16-23-59-24.json
+        "Cup",
+        "Mug",
+        "Fork",
+        "Hat",
+        "Bottle",
+        "Bowl",
+        # Job 2: results_grasp_dif_multi/GraspDifMulti_63_cat_eval_2023-06-17-10-49-27.json
+        "Car",
+        "Donut",
+        "Laptop",
+        "MousePad",
+        "Pencil",
+        "Plate",
+        "ScrewDriver",
+        ## Job 3 results_grasp_dif_multi/GraspDifMulti_63_cat_eval_2023-06-18-22-17-28.json
+        "WineBottle",
+        "Backpack",
+        "Bag",
+        "Banana",
+        "Battery",
+        "BeanBag",
+        ## Job 4 results_grasp_dif_multi/GraspDifMulti_63_cat_eval_2023-06-18-22-18-17.json
+        "Bear",
+        "Book",
+        "Books",
+        "Camera",
+        "CerealBox",
+        "Cookie",
+        ## Job 5: results_grasp_dif_multi/GraspDifMulti_63_cat_eval_2023-06-18-22-19-18.json
+        "Hammer",
+        "Hanger",
+        "Knife",
+        "MilkCarton",
+        "Painting",
+        "PillBottle",
+        "Plant",
+        ## Job 6: results_grasp_dif_multi/GraspDifMulti_63_cat_eval_2023-06-18-22-20-09.json
+        "PowerSocket",
+        "PowerStrip",
+        "PS3",
+        "PSP",
+        "Ring",
+        "Scissors",
+        ## Job 7: results_grasp_dif_multi/GraspDifMulti_63_cat_eval_2023-06-18-22-32-49.json
+        "Shampoo",
+        "Shoes",
+        "Sheep",
+        "Shower",
+        "Sink",
+        "SoapBottle",
+        "SodaCan",
+        ## Job 8:results_grasp_dif_multi/GraspDifMulti_63_cat_eval_2023-06-18-22-21-19.json
+        "Spoon",
+        "Statue",
+        "Teacup",
+        "Teapot",
+        "ToiletPaper",
+        "ToyFigure",
+        ## Job 9: results_grasp_dif_multi/GraspDifMulti_63_cat_eval_2023-06-18-22-34-50.json
+        "Wallet",
+        "WineGlass",
+        "Cow",
+        "Sheep",
+        "Cat",
+        "Dog",
+        "Pizza",
+        ## Job 10: results_grasp_dif_multi/GraspDifMulti_63_cat_eval_2023-06-18-22-25-21.json
+        "Elephant",
+        "Donkey",
+        "RubiksCube",
+        "Tank",
+        "Truck",
+        "USBStick"
+    ]
+
+    exp_name = "63_cat_eval"
 
     out_file = os.path.join(
             out_dir,
@@ -87,7 +163,7 @@ if __name__ == '__main__':
     for obj_cls in obj_classes:
         _acronym_grasps_dir = AcronymGraspsDirectory(data_type=obj_cls)
         num_avail_objs = len(_acronym_grasps_dir.avail_obj)
-
+        print(f"Num available objects in {obj_cls} = {num_avail_objs}")
         for obj_id in range(start_id, num_avail_objs):
 
             print(f"Running object id: {obj_id}")
@@ -110,6 +186,8 @@ if __name__ == '__main__':
             results["results"][counter] = {
                 "test_case": obj_id,
                 "object_id": _acronym_grasps_dir.avail_obj[obj_id].mesh_id,
+                "object_scale": _acronym_grasps_dir.avail_obj[obj_id].mesh_scale,
+                "object_category": _acronym_grasps_dir.avail_obj[obj_id].mesh_type,
                 "success": success_list,
                 "emd_mean": edd_mean_list,
                 "emd_std": edd_std_list,
